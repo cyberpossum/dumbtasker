@@ -14,6 +14,7 @@ type common struct {
 type Opts struct {
 	InitDB    *initDB    `command:"init-db" description:"Initialize an empty database"`
 	MigrateDB *migrateDB `command:"migrate-db" description:"Migrate existing database"`
+	AddTask   *addTask   `command:"add" description:"Add a new task" alias:"new" alias:"new-task"`
 }
 
 // AppendDBTypes populates choices for DBType option
