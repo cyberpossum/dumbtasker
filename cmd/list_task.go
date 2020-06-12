@@ -67,6 +67,8 @@ func (l *listTask) Execute(args []string) error {
 		db = db.Where("due <= ?", due)
 	}
 
+	db = db.Order("due ASC")
+
 	if err := db.Find(&tasks).Error; err != nil {
 		return err
 	}
