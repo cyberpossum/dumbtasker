@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"text/tabwriter"
 	"time"
 
 	"github.com/cyberpossum/dumbtasker/database"
@@ -73,10 +75,12 @@ func (l *listTask) Execute(args []string) error {
 		return err
 	}
 
+	w := tabwriter.NewWriter(os.Stdout, 20, 4, 1, byte(' '), 0)
 	for _, tt := range tasks {
 		id, fdue := l.formatOutput(&tt)
-		fmt.Printf("%v\t%q:\t%v\n", id, tt.Description, fdue)
+		fmt.Fprintf(w, "%v\t%q:\t%v\n", id, tt.Description, fdue)
 	}
+	w.Flush()
 
 	return nil
 }
