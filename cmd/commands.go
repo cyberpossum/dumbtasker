@@ -12,10 +12,11 @@ type common struct {
 
 // Opts is the list of commands and options
 type Opts struct {
-	InitDB    *initDB    `command:"init-db" description:"Initialize an empty database"`
-	MigrateDB *migrateDB `command:"migrate-db" description:"Migrate existing database"`
-	AddTask   *addTask   `command:"add" description:"Add a new task" alias:"new" alias:"new-task"`
-	ListTask  *listTask  `command:"list" description:"List tasks"`
+	InitDB       *initDB       `command:"init-db" description:"Initialize an empty database"`
+	MigrateDB    *migrateDB    `command:"migrate-db" description:"Migrate existing database"`
+	AddTask      *addTask      `command:"add" description:"Add a new task" alias:"new" alias:"new-task"`
+	ListTask     *listTask     `command:"list" description:"List tasks"`
+	CompleteTask *completeTask `command:"done" description:"Complete a task" alias:"complete"`
 }
 
 // AppendDBTypes populates choices for DBType option
