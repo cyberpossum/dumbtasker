@@ -16,7 +16,8 @@ type Opts struct {
 	MigrateDB    *migrateDB    `command:"migrate-db" description:"Migrate existing database"`
 	AddTask      *addTask      `command:"add" description:"Add a new task" alias:"new" alias:"new-task"`
 	ListTask     *listTask     `command:"list" description:"List tasks"`
-	CompleteTask *completeTask `command:"done" description:"Complete a task" alias:"complete"`
+	CompleteTask *completeTask `command:"done" description:"Complete a task" alias:"complete" alias:"close"`
+	DeleteTask   *deleteTask   `command:"delete" description:"Delete a task" alias:"cancel" alias:"remove" alias:"erase"`
 }
 
 // AppendDBTypes populates choices for DBType option
