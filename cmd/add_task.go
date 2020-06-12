@@ -15,7 +15,21 @@ import (
 type smartTime time.Time
 
 func (st *smartTime) UnmarshalFlag(value string) error {
-	t, err := dateparse.ParseLocal(value)
+	// formatting
+	// "today", "tomorrow" -> due until EOD
+	// "today 14:00" -> until today's 14:00
+	procValue := strings.TrimSpace(value)
+
+	switch procValue {
+	case "today":
+		procValue = time.Now().Add(24 * time.Hour).Format("2006-01-02")
+	case "tomorrow":
+		procValue = time.Now().Add(48 * time.Hour).Format("2006-01-02")
+	}
+	procValue = strings.Replace(procValue, "today", time.Now().Format("2006-01-02"), 1)
+	procValue = strings.Replace(procValue, "tomorrow", time.Now().Add(24*time.Hour).Format("2006-01-02"), 1)
+
+	t, err := dateparse.ParseLocal(procValue)
 	if err != nil {
 		return err
 	}
