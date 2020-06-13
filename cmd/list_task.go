@@ -3,11 +3,11 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"text/tabwriter"
 	"time"
 
 	"github.com/cyberpossum/dumbtasker/database"
 	"github.com/cyberpossum/dumbtasker/dto"
+	"github.com/cyberpossum/tabwriter"
 	"github.com/fatih/color"
 )
 
@@ -75,7 +75,7 @@ func (l *listTask) Execute(args []string) error {
 		return err
 	}
 
-	w := tabwriter.NewWriter(os.Stdout, 20, 4, 1, byte(' '), 0)
+	w := tabwriter.NewWriter(os.Stdout, 20, 4, 1, byte(' '), tabwriter.ANSIColors)
 	for _, tt := range tasks {
 		id, fdue := l.formatOutput(&tt)
 		fmt.Fprintf(w, "%v\t%q:\t%v\n", id, tt.Description, fdue)
