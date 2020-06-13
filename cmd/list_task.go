@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/cyberpossum/dumbtasker/database"
+	"github.com/cyberpossum/dumbtasker/dal"
 	"github.com/cyberpossum/dumbtasker/dto"
 	"github.com/cyberpossum/tabwriter"
 	"github.com/fatih/color"
@@ -49,29 +49,10 @@ func (l *listTask) formatOutput(t *dto.Task) (string, string) {
 
 // Execute implements flags.Commander
 func (l *listTask) Execute(args []string) error {
-	db, err := database.OpenDB(l.DBType, l.ConnStr)
-	if err != nil {
-		return fmt.Errorf("opening database: %w", err)
-	}
-	defer db.Close()
-
-	var tasks []dto.Task
-
 	due := time.Time(l.Due)
 
-	db = db.Where(&dto.Task{Status: dto.Open})
-
-	if l.All {
-		db = db.Or(&dto.Task{Status: dto.Closed})
-	}
-
-	if !due.IsZero() {
-		db = db.Where("due <= ?", due)
-	}
-
-	db = db.Order("due ASC")
-
-	if err := db.Find(&tasks).Error; err != nil {
+	tasks, err := dal.ListTasks(l.getDbConfig(), due, l.All)
+	if err != nil {
 		return err
 	}
 

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/cyberpossum/dumbtasker/dal"
 	"github.com/cyberpossum/dumbtasker/dto"
 )
 
@@ -13,6 +14,6 @@ type completeTask struct {
 }
 
 // Execute executes the command, adding a task
-func (a *completeTask) Execute([]string) error {
-	return changeTaskStatus(a.DBType, a.ConnStr, a.PosArgs.ID, []dto.TaskStatus{dto.Open}, dto.Closed)
+func (c *completeTask) Execute([]string) error {
+	return dal.ChangeTaskStatus(c.getDbConfig(), c.PosArgs.ID, []dto.TaskStatus{dto.Open}, dto.Closed)
 }

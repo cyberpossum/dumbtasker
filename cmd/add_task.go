@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/araddon/dateparse"
-	"github.com/cyberpossum/dumbtasker/database"
+	"github.com/cyberpossum/dumbtasker/dal"
 	"github.com/cyberpossum/dumbtasker/dto"
 	"github.com/jinzhu/gorm"
 )
@@ -82,11 +82,5 @@ func (a *addTask) Execute([]string) error {
 		return fmt.Errorf("creating task: %w", err)
 	}
 
-	db, err := database.OpenDB(a.DBType, a.ConnStr)
-	if err != nil {
-		return fmt.Errorf("opening database: %w", err)
-	}
-	defer db.Close()
-
-	return db.Create(task).Error
+	return dal.CreateTask(a.getDbConfig(), task)
 }

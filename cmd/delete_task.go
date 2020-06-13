@@ -1,6 +1,9 @@
 package cmd
 
-import "github.com/cyberpossum/dumbtasker/dto"
+import (
+	"github.com/cyberpossum/dumbtasker/dal"
+	"github.com/cyberpossum/dumbtasker/dto"
+)
 
 type deleteTask struct {
 	common
@@ -11,6 +14,6 @@ type deleteTask struct {
 }
 
 // Execute executes the command, adding a task
-func (a *deleteTask) Execute([]string) error {
-	return changeTaskStatus(a.DBType, a.ConnStr, a.PosArgs.ID, []dto.TaskStatus{dto.Open, dto.Closed}, dto.Deleted)
+func (d *deleteTask) Execute([]string) error {
+	return dal.ChangeTaskStatus(d.getDbConfig(), d.PosArgs.ID, []dto.TaskStatus{dto.Open, dto.Closed}, dto.Deleted)
 }

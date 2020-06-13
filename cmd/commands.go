@@ -10,6 +10,13 @@ type common struct {
 	DBType  database.Type `long:"db-type" description:"Database type" default:"sqlite3" env:"DUMBTASKER_DBTYPE"`
 }
 
+func (c *common) getDbConfig() *database.Config {
+	return &database.Config{
+		Type:    c.DBType,
+		ConnStr: c.ConnStr,
+	}
+}
+
 // Opts is the list of commands and options
 type Opts struct {
 	InitDB       *initDB       `command:"init-db" description:"Initialize an empty database"`
