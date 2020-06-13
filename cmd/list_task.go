@@ -8,6 +8,7 @@ import (
 	"github.com/cyberpossum/dumbtasker/database"
 	"github.com/cyberpossum/dumbtasker/dto"
 	"github.com/cyberpossum/tabwriter"
+	"github.com/dustin/go-humanize"
 	"github.com/fatih/color"
 )
 
@@ -19,14 +20,21 @@ const (
 type listTask struct {
 	common
 
-	Due     smartTime `long:"due" description:"Tasks with due date before the specified"`
-	All     bool      `short:"a" long:"all" description:"Show all tasks including completed"`
-	NoColor bool      `long:"no-color" description:"suppress color output"`
+	Due      smartTime `long:"due" description:"Tasks with due date before the specified"`
+	All      bool      `short:"a" long:"all" description:"Show all tasks including completed"`
+	NoColor  bool      `long:"no-color" description:"suppress color output"`
+	FullDate bool      `long:"full-date" description:"Show full date in output"`
 }
 
 func (l *listTask) formatOutput(t *dto.Task) (string, string) {
 	idStr := fmt.Sprintf("%08d", t.ID)
-	dueStr := fmt.Sprintf("%v", t.Due)
+	var dueStr string
+	if l.FullDate {
+		dueStr = fmt.Sprintf("%v", t.Due)
+	} else {
+		dueStr = humanize.Time(t.Due)
+	}
+
 	if l.NoColor {
 		return idStr, dueStr
 	}
