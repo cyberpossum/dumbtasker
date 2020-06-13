@@ -17,6 +17,13 @@ const (
 	DBTypeMySQL
 )
 
+// Config contains all the necessary information to
+// access the database
+type Config struct {
+	Type
+	ConnStr string
+}
+
 var dbTypeMapping map[string]Type = map[string]Type{
 	"sqlite3": DBTypeSQLite3,
 	"mysql":   DBTypeMySQL,
